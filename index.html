@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أذكار الصلاة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- خلفية زخرفية -->
+<div class="pattern-overlay"></div>
+
+<header class="site-header">
+  <div class="arch">
+    <div class="arch-inner">
+      <span class="crescent">☾</span>
+    </div>
+  </div>
+  <h1 class="site-title">أذكار الصلاة</h1>
+  <p class="site-sub">حِصنُ المسلمِ اليومي — اذكر الله يذكرك</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-cat="afterPrayer">بعد الصلاة</button>
+  <button class="tab-btn" data-cat="morning">الصباح</button>
+  <button class="tab-btn" data-cat="evening">المساء</button>
+  <button class="tab-btn" data-cat="sleep">النوم</button>
+</nav>
+
+<div class="quran-cta">
+  <button class="btn-17" id="openQuran" aria-haspopup="dialog">
+    <span class="text-container">
+      <span class="text">📖 القرآن الكريم</span>
+    </span>
+  </button>
+</div>
+
+<main id="app">
+  <section class="cat-header" id="catHeader">
+    <span class="cat-icon" id="catIcon">🕌</span>
+    <div>
+      <h2 id="catTitle">أذكار بعد الصلاة</h2>
+      <p id="catDesc" class="cat-desc"></p>
+    </div>
+    <button class="reset-cat-btn" id="resetCatBtn" title="إعادة ضبط عدّادات هذا القسم">↺ إعادة ضبط</button>
+  </section>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <ul class="azkar-list" id="azkarList"></ul>
+</main>
+
+<!-- زر المسبحة العائم -->
+<button id="openTasbih" class="tasbih-fab" aria-label="افتح المسبحة الإلكترونية">
+  <span class="fab-beads">۝</span>
+  <span class="fab-label">المسبحة</span>
+</button>
+
+<!-- درج المسبحة الجانبي (بعرض الشاشة بالكامل) -->
+<div class="tasbih-drawer" id="tasbihOverlay">
+  <button class="close-modal" id="closeTasbih" aria-label="إغلاق">✕</button>
+
+  <div class="drawer-top">
+    <h3>المسبحة الإلكترونية</h3>
+    <div class="dhikr-select" id="dhikrSelect">
+      <button class="dhikr-chip active" data-text="سُبْحَانَ اللَّهِ">سبحان الله</button>
+      <button class="dhikr-chip" data-text="الْحَمْدُ لِلَّهِ">الحمد لله</button>
+      <button class="dhikr-chip" data-text="اللَّهُ أَكْبَرُ">الله أكبر</button>
+      <button class="dhikr-chip" data-text="لَا إِلَهَ إِلَّا اللَّهُ">لا إله إلا الله</button>
+      <button class="dhikr-chip" data-text="أَسْتَغْفِرُ اللَّهَ">أستغفر الله</button>
+    </div>
+    <p class="current-dhikr" id="currentDhikrText">سُبْحَانَ اللَّهِ</p>
+
+    <div class="counter-ring">
+      <svg viewBox="0 0 120 120" class="ring-svg">
+        <circle cx="60" cy="60" r="52" class="ring-bg"/>
+        <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+      </svg>
+      <div class="counter-number" id="counterNumber">0</div>
+    </div>
+    <p class="counter-round" id="counterRound">الدورة: 1</p>
+    <div class="counter-actions">
+      <button id="counterMinus" title="إنقاص">−</button>
+      <button id="counterReset" title="إعادة ضبط">↺</button>
+    </div>
+  </div>
+
+  <!-- خيط السبحة الممتد على طول الشاشة -->
+  <div class="beads-track" id="beadsTrack">
+    <div class="beads-string"></div>
+    <div class="bead drag-bead" id="dragBead"></div>
+    <div class="bead-tassel"></div>
+  </div>
+
+  <p class="drag-hint">اسحب الخرزة لأسفل الشاشة أو اضغط عليها للعدّ</p>
+</div>
+
+<!-- درج القرآن الكريم -->
+<div class="quran-drawer" id="quranOverlay" role="dialog" aria-modal="true" aria-label="القرآن الكريم">
+  <button class="close-modal" id="closeQuran" aria-label="إغلاق">✕</button>
+
+  <div class="quran-top">
+    <h3>القرآن الكريم</h3>
+    <p class="quran-sub" id="quranSub">اختر السورة لتبدأ القراءة — المصحف كاملًا برواية حفص عن عاصم</p>
+  </div>
+
+  <div class="quran-body" id="quranBody">
+    <div class="loading" id="quranLoading" hidden>
+      <svg viewBox="0 0 240 80" width="220" height="70" aria-hidden="true">
+        <polyline id="back" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front2" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+      </svg>
+    </div>
+
+    <ul class="surah-list" id="surahList"></ul>
+
+    <div class="ayat-view" id="ayatView" hidden>
+      <button class="back-to-list" id="backToList">→ العودة لقائمة السور</button>
+      <h4 id="surahTitle"></h4>
+      <p class="surah-title-meta" id="surahTitleMeta"></p>
+      <div class="ayat-text" id="ayatText"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>«الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ»</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
