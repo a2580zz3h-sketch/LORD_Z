@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشغل الفيديوهات</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🎬 مشغل الفيديوهات</h1>
+            <p class="subtitle">ألصق رابط فيديو (TikTok, YouTube, MP4) لمشاهدته وتحميله</p>
+            
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="videoUrl" 
+                    placeholder="ضع رابط الفيديو هنا..."
+                >
+                <button id="loadBtn">
+                    عرض الفيديو ▶️
+                </button>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>جاري تحميل الفيديو...</p>
+            </div>
+
+            <div id="videoSection" class="video-section hidden">
+                <div class="video-wrapper">
+                    <!-- مشغل الفيديو المباشر و TikTok -->
+                    <video id="videoPlayer" controls preload="metadata"></video>
+                    <!-- مشغل يوتيوب -->
+                    <iframe id="youtubePlayer" class="hidden" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+                </div>
+                <button id="downloadBtn" class="download-btn">
+                    ⬇️ تحميل الفيديو
+                </button>
+            </div>
+
+            <div id="errorMsg" class="error hidden"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
