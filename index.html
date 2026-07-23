@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أهل الذكر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- خلفية زخرفية -->
+<div class="pattern-overlay"></div>
+
+<header class="site-header">
+  <button class="dev-btn" id="openDevModal" title="المطوّر">👤 المطوّر</button>
+  <div class="arch">
+    <div class="arch-inner">
+      <span class="crescent">☾</span>
+    </div>
+  </div>
+  <h1 class="site-title">أهل الذكر</h1>
+  <p class="site-sub">حِصنُ المسلمِ اليومي — أَلا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-cat="afterPrayer">بعد الصلاة</button>
+  <button class="tab-btn" data-cat="morning">الصباح</button>
+  <button class="tab-btn" data-cat="evening">المساء</button>
+  <button class="tab-btn" data-cat="sleep">النوم</button>
+</nav>
+
+<div class="quran-cta">
+  <button class="btn-17" id="openQuran" aria-haspopup="dialog">
+    <span class="text-container">
+      <span class="text">📖 القرآن الكريم</span>
+    </span>
+  </button>
+  <button class="btn-17 btn-listen" id="openListen" aria-haspopup="dialog" style="margin-right:12px;">
+    <span class="text-container">
+      <span class="text">🎧 استماع</span>
+    </span>
+  </button>
+</div>
+
+<main id="app">
+  <!-- Azkar View -->
+  <div id="azkarView">
+    <section class="cat-header" id="catHeader">
+      <span class="cat-icon" id="catIcon">🕌</span>
+      <div>
+        <h2 id="catTitle">أذكار بعد الصلاة</h2>
+        <p id="catDesc" class="cat-desc"></p>
+      </div>
+      <button class="reset-cat-btn" id="resetCatBtn" title="إعادة ضبط عدّادات هذا القسم">↺ إعادة ضبط</button>
+    </section>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <ul class="azkar-list" id="azkarList"></ul>
+  </div>
+
+  <!-- Quran Surah List View (shown in main area) -->
+  <div id="quranView" hidden>
+    <section class="cat-header">
+      <span class="cat-icon">📖</span>
+      <div>
+        <h2>القرآن الكريم</h2>
+        <p class="cat-desc">اختر السورة لتبدأ القراءة — المصحف كاملًا برواية حفص عن عاصم</p>
+      </div>
+      <button class="reset-cat-btn" id="backToAzkar">↺ العودة</button>
+    </section>
+
+    <div class="progress-track" style="opacity:0;">
+      <div class="progress-fill" style="width:0%"></div>
+    </div>
+
+    <div class="loading" id="quranLoading" hidden>
+      <svg viewBox="0 0 240 80" width="220" height="70" aria-hidden="true">
+        <polyline id="back" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front2" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+      </svg>
+      <p class="loading-label">جاري تحميل السور...</p>
+    </div>
+
+    <ul class="surah-list" id="surahList"></ul>
+  </div>
+
+  <!-- Quran Ayat View (shown in main area) -->
+  <div id="ayatView" hidden>
+    <section class="cat-header">
+      <span class="cat-icon">📖</span>
+      <div>
+        <h2 id="surahTitle"></h2>
+        <p class="cat-desc" id="surahTitleMeta"></p>
+      </div>
+      <button class="reset-cat-btn" id="backToSurahList">↺ السور</button>
+    </section>
+
+    <div class="progress-track" style="opacity:0;">
+      <div class="progress-fill" style="width:0%"></div>
+    </div>
+
+    <div class="loading" id="ayatLoading" hidden>
+      <svg viewBox="0 0 240 80" width="220" height="70" aria-hidden="true">
+        <polyline id="back" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front2" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+      </svg>
+      <p class="loading-label">جاري تحميل الآيات...</p>
+    </div>
+
+    <div class="ayat-text" id="ayatText"></div>
+  </div>
+
+  <!-- Listen View (Audio Player) -->
+  <div id="listenView" hidden>
+    <section class="cat-header">
+      <span class="cat-icon">🎧</span>
+      <div>
+        <h2>استماع القرآن الكريم</h2>
+        <p class="cat-desc">القارئ: محمد صديق المنشاوي — اختر السورة للاستماع</p>
+      </div>
+      <button class="reset-cat-btn" id="backToAzkarFromListen">↺ العودة</button>
+    </section>
+
+    <div class="progress-track" style="opacity:0;">
+      <div class="progress-fill" style="width:0%"></div>
+    </div>
+
+    <div class="loading" id="listenLoading" hidden>
+      <svg viewBox="0 0 240 80" width="220" height="70" aria-hidden="true">
+        <polyline id="back" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+        <polyline id="front2" points="0,40 40,40 55,10 75,70 90,40 240,40"></polyline>
+      </svg>
+      <p class="loading-label">جاري تحميل السور...</p>
+    </div>
+
+    <!-- Audio Player Bar -->
+    <div class="audio-player-bar" id="audioPlayerBar" hidden>
+      <div class="player-info">
+        <span class="player-surah" id="playerSurahName">—</span>
+        <span class="player-reciter">المنشاوي</span>
+      </div>
+      <audio id="quranAudio" controls preload="none"></audio>
+      <button class="player-close" id="closePlayer">✕</button>
+    </div>
+
+    <ul class="surah-list" id="listenSurahList"></ul>
+  </div>
+</main>
+
+<!-- زر المسبحة العائم -->
+<button id="openTasbih" class="tasbih-fab" aria-label="افتح المسبحة الإلكترونية">
+  <span class="fab-beads">۝</span>
+  <span class="fab-label">المسبحة</span>
+</button>
+
+<!-- درج المسبحة الجانبي (بعرض الشاشة بالكامل) -->
+<div class="tasbih-drawer" id="tasbihOverlay">
+  <button class="close-modal" id="closeTasbih" aria-label="إغلاق">✕</button>
+
+  <div class="drawer-top">
+    <h3>المسبحة الإلكترونية</h3>
+    <div class="dhikr-select" id="dhikrSelect">
+      <button class="dhikr-chip active" data-text="سُبْحَانَ اللَّهِ">سبحان الله</button>
+      <button class="dhikr-chip" data-text="الْحَمْدُ لِلَّهِ">الحمد لله</button>
+      <button class="dhikr-chip" data-text="اللَّهُ أَكْبَرُ">الله أكبر</button>
+      <button class="dhikr-chip" data-text="لَا إِلَهَ إِلَّا اللَّهُ">لا إله إلا الله</button>
+      <button class="dhikr-chip" data-text="أَسْتَغْفِرُ اللَّهَ">أستغفر الله</button>
+    </div>
+    <p class="current-dhikr" id="currentDhikrText">سُبْحَانَ اللَّهِ</p>
+
+    <div class="counter-ring">
+      <svg viewBox="0 0 120 120" class="ring-svg">
+        <circle cx="60" cy="60" r="52" class="ring-bg"/>
+        <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+      </svg>
+      <div class="counter-number" id="counterNumber">0</div>
+    </div>
+    <p class="counter-round" id="counterRound">الدورة: 1</p>
+    <div class="counter-actions">
+      <button id="counterMinus" title="إنقاص">−</button>
+      <button id="counterReset" title="إعادة ضبط">↺</button>
+    </div>
+  </div>
+
+  <!-- خيط السبحة الممتد على طول الشاشة -->
+  <div class="beads-track" id="beadsTrack">
+    <div class="beads-string"></div>
+    <div class="bead drag-bead" id="dragBead"></div>
+    <div class="bead-tassel"></div>
+  </div>
+
+  <p class="drag-hint">اسحب الخرزة لأسفل الشاشة أو اضغط عليها للعدّ</p>
+</div>
+
+<footer class="site-footer">
+  <p>«الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ»</p>
+</footer>
+
+<!-- Developer Modal -->
+<div class="dev-modal-overlay" id="devModalOverlay">
+  <div class="dev-modal">
+    <button class="dev-modal-close" id="closeDevModal">✕</button>
+    <div class="dev-modal-content">
+      <div class="dev-avatar">👤</div>
+      <h3 class="dev-name">عبدالله</h3>
+      <p class="dev-title">شخص تائب</p>
+      <div class="dev-divider"></div>
+      <p class="dev-desc">
+        أُحِبُّتُ كتابة موقع جميل مثل <strong>أهل الذكر</strong> كي يفيد الناس
+      </p>
+      <p class="dev-doa">
+        لا رِياءَ ولا سُمْعةَ<br>
+        <em>اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الرِّيَاءِ</em>
+      </p>
+      <a href="https://wa.me/+201035880919/?text=السلام+عليكم" class="dev-contact-btn" target="_blank" rel="noopener">
+        💬 تواصل مع عبدالله
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
